@@ -1,7 +1,3 @@
-
-import ultralytics
-ultralytics.checks()
-
 import re, json
 import os
 import argparse
@@ -48,26 +44,27 @@ from logging import info
 logging.basicConfig(level=logging.INFO,
                     format='%(pathname)s:%(lineno)d: [%(asctime)ss%(msecs)03d]:%(message)s',
                     datefmt='%Hh%Mm%S')
-
+from typing import Type
 from utillc import *
-import datetime
-from ultralytics import YOLO
 
-# Load a model
-model = YOLO('yolov8n.yaml')  # build a new model from scratch
-#model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+@torch.jit.script
+def g(m : torch.Tensor) -> torch.Tensor :
+    return m @ m
 
-# Use the model
+@torch.jit.script
+def f() :
+    dev = 'cpu'
+    #dev = 'cuda'
+    m = torch.ones((100, 100)).to(dev)
+    for i in range(10000) :
+        m = g(m)
+EKO()
+f()
+EKO()
+f()
+EKO()
+f()
+EKO()
+f()
+EKO()
 
-
-
-results = model.train(data='manuscript.yaml',
-                      imgsz=512,
-                      device=0,
-                      project='manuscript',
-                      epochs=100)  # train the model
-results = model.val()  # evaluate model performance on the validation set
-results = model("/mnt/hd1/data/manuscript/train_folder/valid/images/n_0093.png")
-r = model.predict("/mnt/hd1/data/manuscript/train_folder/valid/images/n_0093.png")
-success = model.export(format='onnx')  # export the model to ONNX format
-     

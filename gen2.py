@@ -90,11 +90,14 @@ def gen_word(n, w=None, thickness=1, synth=synthesizer) :
     if w is None :
         i = np.random.randint(0, len(words_list))
         w = words_list[i]
+    #EKO()
     seq = synth.generate_handwriting2(w)
+    #EKO()
     points = utils.get_points(seq,
                               horizontal_padding=100,
                               vertical_padding=5)
     im =  points_to_image(points, shrink=0.06, thickness=thickness)
+    #EKO()
     return im
 
 
@@ -107,11 +110,13 @@ def gen_pages() :
     whf = lambda e : (e.shape[0], e.shape[1]) 
     ann=[]
     for i,e1 in enumerate(wrds) :
+        #EKO()
         bpts = np.random.randint(0, 20) == 1
         if bpts :
             e = gen_word(0, 'Baptise', synth=synth2)
         else :
             e =  e1
+        #EKO()
         h,w = whf(e)
         # on veut des dessins de mots raisonnables, il arrive qu'ils soient bizarres ..
         if h < H / 4 and w < W / 4 :
@@ -169,7 +174,7 @@ def gen_pages() :
                 tl = (tly, tlx+w)
                 tly, tlx = tl
                 nnn += 1
-
+        #EKO()
 
     
 gen_pages()
